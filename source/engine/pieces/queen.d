@@ -2,6 +2,7 @@ module engine.pieces.queen;
 
 import engine.pieces.piece;
 import engine.pieces.moves.move;
+import engine.board;
 
 class Queen : Piece {
     this(Alliance a, int boardPosition) {

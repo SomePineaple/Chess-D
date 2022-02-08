@@ -2,6 +2,7 @@ module engine.board;
 
 import engine.pieces.piece;
 import engine.pieces.pawn;
+import engine.pieces.moves.move;
 import std.stdio;
 
 class Board {
@@ -34,8 +35,15 @@ class Board {
     }
 
     void makeMove(int startPos, int endPos) {
+        Move mv = new Move(
+            startPos, endPos, 
+            pieces[endPos].getType() == PieceType.EMPTYSPACE ? MoveType.NORMAL : MoveType.ATTACK
+        );
+
         foreach (Move move; legalMoves) {
-            
+            if (move == mv) {
+                move.makeMove(this);
+            }
         }
     }
 

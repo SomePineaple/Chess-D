@@ -2,6 +2,7 @@ module engine.pieces.pawn;
 
 import engine.pieces.piece;
 import engine.pieces.moves.move;
+import engine.board;
 
 class Pawn : Piece {
     this(Alliance a, int boardPosition) {
