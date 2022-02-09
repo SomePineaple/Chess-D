@@ -6,10 +6,12 @@ class Window {
     private int width, height;
     private SDL_Window* window;
     private SDL_Renderer* renderer;
+    private bool shouldWindowClose;
 
     this(int windowWidth, int windowHeight) {
         width = windowWidth;
         height = windowHeight;
+        shouldWindowClose = false;
     }
 
     void create() {
@@ -26,7 +28,17 @@ class Window {
     }
 
     void update() {
+        SDL_Event event;
 
+        while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case event.type.SDL_QUIT:
+                    shouldWindowClose = true;
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     void render() {
@@ -35,5 +47,9 @@ class Window {
         // Render board here
 
         SDL_RenderPresent(renderer);
+    }
+
+    bool shouldClose() {
+        return shouldWindowClose;
     }
 }

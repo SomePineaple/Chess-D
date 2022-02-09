@@ -23,8 +23,10 @@ void main() {
 
     window.create();
 
-    while (true) {
+    while (!window.shouldClose()) {
         window.update();
         window.render();
     }
+
+    SDL_Quit();
 }
