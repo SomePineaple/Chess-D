@@ -1,0 +1,4 @@
+name "Chess-D"
+description "Eventually this will be a chess bot, and full chess application written in DLang"
+authors "SomePineaple"
+dependency "bindbc-sdl" version="~>1.0.1"
