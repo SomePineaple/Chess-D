@@ -2,6 +2,7 @@ import std.stdio;
 import core.stdc.stdlib;
 import engine.board;
 import bindbc.sdl;
+import ui.window;
 
 void main() {
     auto board = new Board();
@@ -16,5 +17,14 @@ void main() {
         }
 
         exit(EXIT_FAILURE);
+    }
+
+    auto window = new Window(800, 800);
+
+    window.create();
+
+    while (true) {
+        window.update();
+        window.render();
     }
 }
