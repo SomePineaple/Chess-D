@@ -23,7 +23,7 @@ void main() {
     window.create();
 
     while (!window.shouldClose()) {
-        window.update();
+        window.update(&board);
         window.render(&board);
     }
 

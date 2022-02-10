@@ -13,6 +13,7 @@ class Window {
     private bool shouldWindowClose;
     private SDL_Rect sqRect;
     private SDL_Rect imgRect;
+    private int selectedSquare;
 
     private SDL_Texture* brTexture;
     private SDL_Texture* bnTexture;
@@ -36,6 +37,7 @@ class Window {
         sqRect.h = height / 8;
         imgRect.w = width / 8;
         imgRect.h = height / 8;
+        selectedSquare = -1;
     }
 
     void create() {
@@ -53,13 +55,31 @@ class Window {
         SDL_ShowWindow(window);
     }
 
-    void update() {
+    void update(Board *board) {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case event.type.SDL_QUIT:
                     shouldWindowClose = true;
+                    break;
+                case event.type.SDL_MOUSEBUTTONDOWN:
+                    int mousex;
+                    int mousey;
+                    SDL_GetMouseState(&mousex, &mousey);
+                    int click = (((mousey / sqRect.h) * 8) + (mousex / sqRect.w));
+                    if (click == selectedSquare) {
+                        selectedSquare = -1;
+                        writeln("De-selected square ", click);
+                        break;
+                    } else if (selectedSquare == -1) {
+                        selectedSquare = click;
+                        writeln("Selected square ", click);
+                        break;
+                    } else {
+                        board.makeMove(selectedSquare, click);
+                        selectedSquare = -1;
+                    }
                     break;
                 default:
                     break;
@@ -94,7 +114,9 @@ class Window {
             sqRect.x = col * sqRect.w;
             sqRect.y = row * sqRect.h;
 
-            if (((row + col) % 2) == 1)
+            if (i == selectedSquare)
+                SDL_SetRenderDrawColor(renderer, 50, 100, 150, 255);
+            else if (((row + col) % 2) == 1)
                 SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
             else
                 SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
