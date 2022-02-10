@@ -29,7 +29,7 @@ class Move {
         return endPos;
     }
 
-    override bool opEquals(Object other) {
+    override bool opEquals(Object other) const {
         if (typeid(other) == typeid(this)) {
             Move otherMove = cast(Move) other;
             
@@ -39,5 +39,9 @@ class Move {
         }
 
         return false;
+    }
+
+    override size_t toHash() const {
+        return startPos + (endPos * 100) + (type * 10_000);
     }
 }
