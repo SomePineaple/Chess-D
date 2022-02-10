@@ -28,5 +28,6 @@ void main() {
         window.render();
     }
 
+    window.destroy();
     SDL_Quit();
 }

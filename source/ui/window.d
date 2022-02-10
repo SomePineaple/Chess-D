@@ -56,6 +56,11 @@ class Window {
         return shouldWindowClose;
     }
 
+    void destroy() {
+        SDL_DestroyRenderer(renderer);
+        SDL_DestroyWindow(window);
+    }
+
     private void renderBoard() {
         for (int i = 0; i < 64; i++) {
             int row = i / 8;
