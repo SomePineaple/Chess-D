@@ -17,7 +17,12 @@ class Pawn : Piece {
         Move[] legalMoves;
 
         if (alliance == Alliance.WHITE) {
-            
+            if (board.getPiece(pos + 8).getType() == PieceType.EMPTYSPACE) {
+                legalMoves ~= new Move(pos, pos + 8, MoveType.NORMAL);
+
+                if (pos < 16 && pos > 7 && board.getPiece(pos + 16).getType() == PieceType.EMPTYSPACE)
+                    legalMoves ~= new Move(pos, pos + 16, MoveType.NORMAL);
+            }
         }
 
         return legalMoves;

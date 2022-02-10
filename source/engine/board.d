@@ -20,6 +20,7 @@ class Board {
         }
 
         whiteToMove = true;
+        updateValidMoves();
     }
 
     void printBoard() {
@@ -43,8 +44,11 @@ class Board {
         foreach (Move move; legalMoves) {
             if (move == mv) {
                 move.makeMove(this);
+                break;
             }
         }
+
+        updateValidMoves();
     }
 
     Piece getPiece(int pos) {
@@ -57,5 +61,13 @@ class Board {
 
     Piece[] getPieces() {
         return pieces;
+    }
+
+    private void updateValidMoves() {
+        legalMoves = [];
+
+        foreach (Piece piece; pieces) {
+            legalMoves ~= piece.getLegalMoves(this);
+        }
     }
 }

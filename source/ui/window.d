@@ -77,7 +77,7 @@ class Window {
                         writeln("Selected square ", click);
                         break;
                     } else {
-                        board.makeMove(selectedSquare, click);
+                        board.makeMove(63 - selectedSquare, 63 - click);
                         selectedSquare = -1;
                     }
                     break;
