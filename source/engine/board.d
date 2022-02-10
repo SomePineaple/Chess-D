@@ -52,6 +52,9 @@ class Board {
     }
 
     Piece getPiece(int pos) {
+        if (pos > 63)
+            return new OffBoardSpace(pos);
+
         return pieces[pos];
     }
 

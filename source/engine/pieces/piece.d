@@ -6,7 +6,7 @@ import engine.board;
 
 enum Alliance { WHITE, BLACK, NOPIECE }
 
-enum PieceType { PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING, EMPTYSPACE }
+enum PieceType { PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING, EMPTYSPACE, OFFBOARD }
 
 class Piece {
     protected PieceType type;
@@ -49,6 +49,22 @@ class EmptySpace : Piece {
     override Piece move(int newPos) {
         stderr.writeln("An attempt whas made to move an empty space. WHY");
         return new EmptySpace(newPos);
+    }
+
+    override Move[] getLegalMoves(Board board) {
+        Move[] legalMoves;
+        return legalMoves;
+    }
+}
+
+class OffBoardSpace : Piece {
+    this(int boardPosition) {
+        super(PieceType.OFFBOARD, '-', Alliance.NOPIECE, boardPosition);
+    }
+
+    override Piece move(int newPos) {
+        stderr.writeln("An attempt was made to move a piece that is not on the board. WHY");
+        return new OffBoardSpace(newPos);
     }
 
     override Move[] getLegalMoves(Board board) {
