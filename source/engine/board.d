@@ -16,7 +16,7 @@ class Board {
         }
 
         for (int i = 8; i < 16; i++) {
-            pieces[i] = new Pawn(Alliance.BLACK, i);
+            pieces[i] = new Pawn(Alliance.WHITE, i);
         }
 
         whiteToMove = true;

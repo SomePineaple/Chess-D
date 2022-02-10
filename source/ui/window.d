@@ -3,6 +3,8 @@ module ui.window;
 import bindbc.sdl;
 import std.stdio;
 import core.stdc.stdlib;
+import engine.board;
+import engine.pieces.piece;
 
 class Window {
     private int width, height;
@@ -10,13 +12,14 @@ class Window {
     private SDL_Renderer* renderer;
     private bool shouldWindowClose;
     private SDL_Rect sqRect;
+    private SDL_Rect imgRect;
 
-    private SDL_Texture *brTexture;
-    private SDL_Texture *bnTexture;
-    private SDL_Texture *bbTexture;
-    private SDL_Texture *bqTexture;
-    private SDL_Texture *bkTexture;
-    private SDL_Texture *bpTexture;
+    private SDL_Texture* brTexture;
+    private SDL_Texture* bnTexture;
+    private SDL_Texture* bbTexture;
+    private SDL_Texture* bqTexture;
+    private SDL_Texture* bkTexture;
+    private SDL_Texture* bpTexture;
 
     private SDL_Texture *wrTexture;
     private SDL_Texture *wnTexture;
@@ -31,6 +34,8 @@ class Window {
         shouldWindowClose = false;
         sqRect.w = width / 8;
         sqRect.h = height / 8;
+        imgRect.w = width / 8;
+        imgRect.h = height / 8;
     }
 
     void create() {
@@ -62,10 +67,11 @@ class Window {
         }
     }
 
-    void render() {
+    void render(Board* board) {
         SDL_RenderClear(renderer);
 
         renderBoard();
+        renderPieces(board);
 
         SDL_RenderPresent(renderer);
     }
@@ -94,6 +100,78 @@ class Window {
                 SDL_SetRenderDrawColor(renderer, 200, 200, 200, 255);
             
             SDL_RenderFillRect(renderer, &sqRect);
+        }
+    }
+
+    private void renderPieces(Board* board) {
+        piecesLoop: for (int i = 0; i < 64; i++) {
+            auto piece = board.getPiece(i);
+            SDL_Texture* tex;
+            switch (piece.getAlliance()) {
+                case Alliance.NOPIECE:
+                    continue piecesLoop;
+                case Alliance.WHITE:
+                    switch (piece.getType()) {
+                        case PieceType.PAWN:
+                            tex = wpTexture;
+                            break;
+                        case PieceType.ROOK:
+                            tex = wrTexture;
+                            break;
+                        case PieceType.KNIGHT:
+                            tex = wnTexture;
+                            break;
+                        case PieceType.BISHOP:
+                            tex = wbTexture;
+                            break;
+                        case PieceType.QUEEN:
+                            tex = wqTexture;
+                            break;
+                        case PieceType.KING:
+                            tex = wkTexture;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Alliance.BLACK:
+                    switch (piece.getType()) {
+                        case PieceType.PAWN:
+                            tex = bpTexture;
+                            break;
+                        case PieceType.ROOK:
+                            tex = brTexture;
+                            break;
+                        case PieceType.KNIGHT:
+                            tex = bnTexture;
+                            break;
+                        case PieceType.BISHOP:
+                            tex = bbTexture;
+                            break;
+                        case PieceType.QUEEN:
+                            tex = bqTexture;
+                            break;
+                        case PieceType.KING:
+                            tex = bkTexture;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            imgRect.x = (7 - (i % 8)) * imgRect.w;
+            imgRect.y = (7 - (i / 8)) * imgRect.h;
+
+            SDL_Rect srcRect;
+            srcRect.w = imgRect.w;
+            srcRect.h = imgRect.h;
+            srcRect.x = 0;
+            srcRect.y = 0;
+
+            SDL_RenderCopy(renderer, tex, &srcRect, &imgRect);
         }
     }
 
