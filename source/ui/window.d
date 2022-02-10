@@ -1,6 +1,8 @@
 module ui.window;
 
 import bindbc.sdl;
+import std.stdio;
+import core.stdc.stdlib;
 
 class Window {
     private int width, height;
@@ -8,6 +10,20 @@ class Window {
     private SDL_Renderer* renderer;
     private bool shouldWindowClose;
     private SDL_Rect sqRect;
+
+    private SDL_Texture *brTexture;
+    private SDL_Texture *bnTexture;
+    private SDL_Texture *bbTexture;
+    private SDL_Texture *bqTexture;
+    private SDL_Texture *bkTexture;
+    private SDL_Texture *bpTexture;
+
+    private SDL_Texture *wrTexture;
+    private SDL_Texture *wnTexture;
+    private SDL_Texture *wbTexture;
+    private SDL_Texture *wqTexture;
+    private SDL_Texture *wkTexture;
+    private SDL_Texture *wpTexture;
 
     this(int windowWidth, int windowHeight) {
         width = windowWidth;
@@ -26,6 +42,8 @@ class Window {
         );
 
         renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+        loadTextures();
 
         SDL_ShowWindow(window);
     }
@@ -57,6 +75,7 @@ class Window {
     }
 
     void destroy() {
+        destroyTextures();
         SDL_DestroyRenderer(renderer);
         SDL_DestroyWindow(window);
     }
@@ -76,5 +95,47 @@ class Window {
             
             SDL_RenderFillRect(renderer, &sqRect);
         }
+    }
+
+    private void loadTextures() {
+        writeln("Attempting to load textures..");
+        brTexture = IMG_LoadTexture(renderer, "res/BR.png");
+        bnTexture = IMG_LoadTexture(renderer, "res/BN.png");
+        bbTexture = IMG_LoadTexture(renderer, "res/BB.png");
+        bqTexture = IMG_LoadTexture(renderer, "res/BQ.png");
+        bkTexture = IMG_LoadTexture(renderer, "res/BK.png");
+        bpTexture = IMG_LoadTexture(renderer, "res/BP.png");
+
+        wrTexture = IMG_LoadTexture(renderer, "res/WR.png");
+        wnTexture = IMG_LoadTexture(renderer, "res/WN.png");
+        wbTexture = IMG_LoadTexture(renderer, "res/WB.png");
+        wqTexture = IMG_LoadTexture(renderer, "res/WQ.png");
+        wkTexture = IMG_LoadTexture(renderer, "res/WK.png");
+        wpTexture = IMG_LoadTexture(renderer, "res/WP.png");
+        writeln("Loaded Textures");
+
+        if (!brTexture || !bnTexture || !bbTexture || !bqTexture || !bkTexture ||
+            !bpTexture || !wrTexture || !wnTexture || !wbTexture || !wqTexture ||
+            !wkTexture || !wpTexture) {
+
+            stderr.writeln("Failed to load textures");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    private void destroyTextures() {
+        SDL_DestroyTexture(brTexture);
+        SDL_DestroyTexture(bnTexture);
+        SDL_DestroyTexture(bbTexture);
+        SDL_DestroyTexture(bqTexture);
+        SDL_DestroyTexture(bkTexture);
+        SDL_DestroyTexture(bpTexture);
+
+        SDL_DestroyTexture(wrTexture);
+        SDL_DestroyTexture(wnTexture);
+        SDL_DestroyTexture(wbTexture);
+        SDL_DestroyTexture(wqTexture);
+        SDL_DestroyTexture(wkTexture);
+        SDL_DestroyTexture(wpTexture);
     }
 }

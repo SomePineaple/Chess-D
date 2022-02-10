@@ -8,14 +8,13 @@ void main() {
     auto board = new Board();
     board.printBoard();
 
-    auto ret = loadSDL();
-    if (ret != sdlSupport) {
-        if (ret == SDLSupport.noLibrary) {
-            stderr.writeln("Could not find SDL library, please install it, and make sure its in your PATH");
-        } else if (ret == SDLSupport.badLibrary) {
-            stderr.writeln("Found a SDL library, but it won't work. Sorry. Try re-installing I guess.");
-        }
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
+        stderr.writeln("Failed to initialize SDL2: ", SDL_GetError());
+        exit(EXIT_FAILURE);
+    }
 
+    if (IMG_Init(IMG_INIT_PNG) == 0) {
+        stderr.writeln("Failed to initialize SDL2_Image: ", IMG_GetError());
         exit(EXIT_FAILURE);
     }
 
