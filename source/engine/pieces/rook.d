@@ -30,6 +30,11 @@ class Rook : Piece {
             bool mustStop = false;
             int currentPos = pos;
             while (!mustStop) {
+                if ((direction == -1 && Board.lowColCheck(currentPos)) || 
+                    (direction == 1 && Board.highColCheck(currentPos))) {
+                    mustStop = true;
+                    continue;
+                }
                 currentPos += direction;
                 Piece pieceOnNewPos = board.getPiece(currentPos);
                 if (pieceOnNewPos.getType() == PieceType.EMPTYSPACE)
@@ -45,9 +50,6 @@ class Rook : Piece {
                     mustStop = true;
                 }
 
-                if ((direction == -1 && Board.lowColCheck(currentPos)) || 
-                    (direction == 1 && Board.highColCheck(currentPos)))
-                    mustStop = true;
             }
         }
 
