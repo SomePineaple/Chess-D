@@ -24,7 +24,7 @@ void main() {
 
     while (!window.shouldClose()) {
         window.update(&board);
-        window.render(&board);
+        window.render(board);
     }
 
     window.destroy();

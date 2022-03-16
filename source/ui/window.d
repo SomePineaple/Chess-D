@@ -5,6 +5,7 @@ import std.stdio;
 import core.stdc.stdlib;
 import engine.board;
 import engine.pieces.piece;
+import engine.pieces.moves.move;
 
 class Window {
     private int width, height;
@@ -87,11 +88,12 @@ class Window {
         }
     }
 
-    void render(Board* board) {
+    void render(Board board) {
         SDL_RenderClear(renderer);
 
         renderBoard();
         renderPieces(board);
+        renderSelection(board);
 
         SDL_RenderPresent(renderer);
     }
@@ -125,7 +127,26 @@ class Window {
         }
     }
 
-    private void renderPieces(Board* board) {
+    private void renderSelection(Board board) {
+        if (selectedSquare == -1)
+            return;
+        
+        Move[] validMoves = board.getPiece(63 - selectedSquare).getLegalMoves(board);
+
+        foreach (move; validMoves) {
+            int moveEndPos = 63 - move.getEndPos();
+            int row = moveEndPos / 8;
+            int col = moveEndPos % 8;
+
+            sqRect.x = col * sqRect.w;
+            sqRect.y = row * sqRect.h;
+
+            SDL_SetRenderDrawColor(renderer, 50, 150, 100, 255);
+            SDL_RenderFillRect(renderer, &sqRect);
+        }
+    }
+
+    private void renderPieces(Board board) {
         piecesLoop: for (int i = 0; i < 64; i++) {
             auto piece = board.getPiece(i);
             SDL_Texture* tex;
