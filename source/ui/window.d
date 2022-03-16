@@ -93,7 +93,7 @@ class Window {
 
         renderBoard();
         renderPieces(board);
-        renderSelection(board);
+        renderValidMoves(board);
 
         SDL_RenderPresent(renderer);
     }
@@ -117,7 +117,7 @@ class Window {
             sqRect.y = row * sqRect.h;
 
             if (i == selectedSquare)
-                SDL_SetRenderDrawColor(renderer, 50, 100, 150, 255);
+                SDL_SetRenderDrawColor(renderer, 150, 50, 50, 255);
             else if (((row + col) % 2) == 1)
                 SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
             else
@@ -127,7 +127,7 @@ class Window {
         }
     }
 
-    private void renderSelection(Board board) {
+    private void renderValidMoves(Board board) {
         if (selectedSquare == -1)
             return;
         
@@ -142,6 +142,8 @@ class Window {
             sqRect.y = row * sqRect.h;
 
             SDL_SetRenderDrawColor(renderer, 50, 150, 100, 255);
+            if ((row + col) % 2 == 1)
+                SDL_SetRenderDrawColor(renderer, 50, 100, 150, 255);
             SDL_RenderFillRect(renderer, &sqRect);
         }
     }
