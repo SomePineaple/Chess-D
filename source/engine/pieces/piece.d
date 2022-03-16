@@ -47,13 +47,12 @@ class EmptySpace : Piece {
     }
 
     override Piece move(int newPos) {
-        stderr.writeln("An attempt whas made to move an empty space. WHY");
+        stderr.writeln("An attempt was made to move an empty space. WHY");
         return new EmptySpace(newPos);
     }
 
     override Move[] getLegalMoves(Board board) {
-        Move[] legalMoves;
-        return legalMoves;
+        return [];
     }
 }
 
@@ -68,7 +67,6 @@ class OffBoardSpace : Piece {
     }
 
     override Move[] getLegalMoves(Board board) {
-        Move[] legalMoves;
-        return legalMoves;
+        return [];
     }
 }
