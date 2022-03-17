@@ -95,8 +95,8 @@ class Board {
         pieces[0] = new Rook(Alliance.WHITE, 0);
         pieces[1] = new Knight(Alliance.WHITE, 1);
         pieces[2] = new Bishop(Alliance.WHITE, 2);
-        pieces[3] = new Queen(Alliance.WHITE, 3);
-        pieces[4] = new King(Alliance.WHITE, 4);
+        pieces[3] = new King(Alliance.WHITE, 3);
+        pieces[4] = new Queen(Alliance.WHITE, 4);
         pieces[5] = new Bishop(Alliance.WHITE, 5);
         pieces[6] = new Knight(Alliance.WHITE, 6);
         pieces[7] = new Rook(Alliance.WHITE, 7);
@@ -107,6 +107,14 @@ class Board {
         for (int i = 48; i < 56; i++)
             pieces[i] = new Pawn(Alliance.BLACK, i);
 
+        pieces[56] = new Rook(Alliance.BLACK, 56);
+        pieces[57] = new Knight(Alliance.BLACK, 57);
+        pieces[58] = new Bishop(Alliance.BLACK, 58);
+        pieces[59] = new King(Alliance.BLACK, 59);
+        pieces[60] = new Queen(Alliance.BLACK, 60);
+        pieces[61] = new Bishop(Alliance.BLACK, 61);
+        pieces[62] = new Knight(Alliance.BLACK, 62);
+        pieces[63] = new Rook(Alliance.BLACK, 63);
         whiteToMove = true;
         updateValidMoves();
     }
