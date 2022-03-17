@@ -30,7 +30,7 @@ class Move {
     }
 
     override bool opEquals(Object other) const {
-        if (typeid(other) == typeid(this)) {
+        if (cast (Move) other) {
             Move otherMove = cast(Move) other;
             
             if (startPos == otherMove.getStartPos() && endPos == otherMove.getEndPos()) {
