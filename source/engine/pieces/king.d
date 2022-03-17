@@ -26,7 +26,7 @@ class King : Piece {
             Piece piece = board.getPiece(pos + possibleMove);
             if (piece.getType() == PieceType.EMPTYSPACE)
                 legalMoves ~= new Move(pos, pos + possibleMove, MoveType.NORMAL);
-            else if (piece.getAlliance() == (alliance == Alliance.WHITE ? Alliance.BLACK : Alliance.WHITE))
+            else if (piece.getAlliance() == enemyAlliance)
                 legalMoves ~= new Move(pos, pos + possibleMove, MoveType.NORMAL);
         }
         return legalMoves;

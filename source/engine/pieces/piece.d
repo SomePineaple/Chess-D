@@ -12,12 +12,16 @@ class Piece {
     protected PieceType type;
     protected char boardPiece;
     protected Alliance alliance;
+    protected Alliance enemyAlliance;
     protected int pos;
 
     this(PieceType pieceType, char pieceBoardPiece, Alliance pieceAlliance, int boardPosition) {
         type = pieceType;
         boardPiece = pieceBoardPiece;
         alliance = pieceAlliance;
+        enemyAlliance = pieceAlliance == Alliance.WHITE ? Alliance.BLACK : Alliance.WHITE;
+        if (pieceAlliance == Alliance.NOPIECE)
+            enemyAlliance = Alliance.NOPIECE;
         pos = boardPosition;
     }
 

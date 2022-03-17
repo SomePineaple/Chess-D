@@ -16,24 +16,17 @@ class Board {
     private Move[] legalMoves;
 
     this() {
-        for (int i = 0; i < 64; i++) {
-            pieces[i] = new EmptySpace(i);
-        }
+        resetBoard();
+    }
 
-        pieces[0] = new Rook(Alliance.WHITE, 0);
-        pieces[1] = new Knight(Alliance.WHITE, 1);
-        pieces[2] = new Bishop(Alliance.WHITE, 2);
-        pieces[3] = new Queen(Alliance.WHITE, 3);
-        pieces[4] = new King(Alliance.WHITE, 4);
-        pieces[5] = new Bishop(Alliance.WHITE, 5);
-        pieces[6] = new Knight(Alliance.WHITE, 6);
-        pieces[7] = new Rook(Alliance.WHITE, 7);
-        for (int i = 8; i < 16; i++) {
-            pieces[i] = new Pawn(Alliance.WHITE, i);
-        }
+    static bool lowTwoColCheck(int pos) {
+        int col = pos % 8;
+        return col == 0 || col == 1;
+    }
 
-        whiteToMove = true;
-        updateValidMoves();
+    static bool highTwoColCheck(int pos) {
+        int col = pos % 8;
+        return col == 6 || col == 7;
     }
 
     static bool lowColCheck(int pos) {
@@ -93,5 +86,28 @@ class Board {
         foreach (Piece piece; pieces) {
             legalMoves ~= piece.getLegalMoves(this);
         }
+    }
+
+    private void resetBoard() {
+        for (int i = 0; i < 64; i++)
+            pieces[i] = new EmptySpace(i);
+
+        pieces[0] = new Rook(Alliance.WHITE, 0);
+        pieces[1] = new Knight(Alliance.WHITE, 1);
+        pieces[2] = new Bishop(Alliance.WHITE, 2);
+        pieces[3] = new Queen(Alliance.WHITE, 3);
+        pieces[4] = new King(Alliance.WHITE, 4);
+        pieces[5] = new Bishop(Alliance.WHITE, 5);
+        pieces[6] = new Knight(Alliance.WHITE, 6);
+        pieces[7] = new Rook(Alliance.WHITE, 7);
+
+        for (int i = 8; i < 16; i++)
+            pieces[i] = new Pawn(Alliance.WHITE, i);
+
+        for (int i = 48; i < 56; i++)
+            pieces[i] = new Pawn(Alliance.BLACK, i);
+
+        whiteToMove = true;
+        updateValidMoves();
     }
 }

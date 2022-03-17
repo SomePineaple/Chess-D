@@ -92,8 +92,8 @@ class Window {
         SDL_RenderClear(renderer);
 
         renderBoard();
-        renderPieces(board);
         renderValidMoves(board);
+        renderPieces(board);
 
         SDL_RenderPresent(renderer);
     }

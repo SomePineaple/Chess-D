@@ -6,7 +6,7 @@ import engine.pieces.piece;
 enum MoveType { NORMAL, ATTACK }
 
 class Move {
-    private int startPos, endPos;
+    protected int startPos, endPos;
     private MoveType type;
 
     this(int moveStartPos, int moveEndPos, MoveType moveType) {
