@@ -18,6 +18,10 @@ class Rook : Piece {
         moved = hasMoved;
     }
 
+    bool hasMoved() {
+        return moved;
+    }
+
     override Piece move(int newPos) {
         return new Rook(alliance, newPos, newPos == pos ? false : true);
     }

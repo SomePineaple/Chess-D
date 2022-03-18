@@ -3,7 +3,7 @@ module engine.pieces.moves.move;
 import engine.board;
 import engine.pieces.piece;
 
-enum MoveType { NORMAL, ATTACK }
+enum MoveType { NORMAL, ATTACK, CASTLE }
 
 class Move {
     protected int startPos, endPos;
