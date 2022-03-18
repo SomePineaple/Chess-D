@@ -55,12 +55,17 @@ class Board {
             pieces[endPos].getType() == PieceType.EMPTYSPACE ? MoveType.NORMAL : MoveType.ATTACK
         );
 
-        foreach (Move move; legalMoves) {
+        bool madeMove = false;
+        foreach (move; legalMoves) {
             if (move == mv) {
                 move.makeMove(this);
+                madeMove = true;
                 break;
             }
         }
+
+        if (!madeMove)
+            return;
 
         updateValidMoves();
         whiteToMove = !whiteToMove;
@@ -81,15 +86,13 @@ class Board {
         return pieces;
     }
 
-    bool isWhiteToMove() {
-        return whiteToMove;
-    }
-
     private void updateValidMoves() {
         legalMoves = [];
 
-        foreach (Piece piece; pieces) {
-            legalMoves ~= piece.getLegalMoves(this);
+        foreach (piece; pieces) {
+            if ((whiteToMove && piece.getAlliance() == Alliance.WHITE) ||
+                (!whiteToMove && piece.getAlliance() == Alliance.BLACK))
+               legalMoves ~= piece.getLegalMoves(this);
         }
     }
 
