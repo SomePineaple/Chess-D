@@ -40,7 +40,7 @@ class King : Piece {
         }
 
         // Castling moves
-        if (alliance == Alliance.WHITE && !hasMoved) {
+        if (!hasMoved) {
             if (board.getPiece(pos - 1).getType() == PieceType.EMPTYSPACE && 
                 board.getPiece(pos - 2).getType() == PieceType.EMPTYSPACE) {
                 
@@ -62,8 +62,7 @@ class King : Piece {
                         legalMoves ~= new CastleMove(pos, pos + 4);
                 }
             }
-        }
-
+        } 
         return legalMoves;
     }
 }

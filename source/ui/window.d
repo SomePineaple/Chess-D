@@ -71,11 +71,11 @@ class Window {
                     int click = (((mousey / sqRect.h) * 8) + (mousex / sqRect.w));
                     if (click == selectedSquare) {
                         selectedSquare = -1;
-                        writeln("De-selected square ", click);
+                        writeln("De-selected square ", 63 - click);
                         break;
                     } else if (selectedSquare == -1) {
                         selectedSquare = click;
-                        writeln("Selected square ", click);
+                        writeln("Selected square ", 63 - click);
                         break;
                     } else {
                         board.makeMove(63 - selectedSquare, 63 - click);
