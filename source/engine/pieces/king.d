@@ -19,6 +19,100 @@ class King : Piece {
         hasMoved = hasPieceMoved;
     }
 
+    bool inCheck(Board board) {
+        bool inCheck = false;
+        // Check for pawns
+        if (alliance == Alliance.WHITE) {
+            int endPos = pos + 7;
+            Piece pieceOnEndPos = board.getPiece(endPos);
+            if (pieceOnEndPos.getAlliance() == enemyAlliance && pieceOnEndPos.getType() == PieceType.PAWN &&
+                    !Board.lowColCheck(pos))
+                inCheck = true;
+            endPos = pos + 9;
+            pieceOnEndPos = board.getPiece(endPos);
+            if (board.getPiece(endPos).getAlliance() == enemyAlliance && pieceOnEndPos.getType() == PieceType.PAWN &&
+                    !Board.highColCheck(pos))
+                inCheck = true;
+        } else {
+            Piece pieceOnEndPos = board.getPiece(pos - 7);
+            if (pieceOnEndPos.getAlliance() == enemyAlliance && pieceOnEndPos.getType() == PieceType.PAWN &&
+                    !Board.highColCheck(pos))
+                inCheck = true;
+            pieceOnEndPos = board.getPiece(pos - 9);
+            if (pieceOnEndPos.getAlliance() == enemyAlliance && pieceOnEndPos.getType() == PieceType.PAWN &&
+                    !Board.lowColCheck(pos))
+                inCheck = true;
+        }
+
+        // Check for rooks and queens
+        int[] moveDirections = [1, -1, 8, -8];
+        foreach (direction; moveDirections) {
+            bool mustStop = false;
+            int currentPos = pos;
+            while (!mustStop) {
+                if ((direction == -1 && Board.lowColCheck(currentPos)) || 
+                    (direction == 1 && Board.highColCheck(currentPos))) {
+                    mustStop = true;
+                    continue;
+                }
+                currentPos += direction;
+                Piece pieceOnNewPos = board.getPiece(currentPos);
+                if (pieceOnNewPos.getType() == PieceType.EMPTYSPACE)
+                    continue;
+                else if (pieceOnNewPos.getAlliance() != Alliance.NOPIECE) {
+                    if (pieceOnNewPos.getAlliance() == alliance)
+                        mustStop = true;
+                    else {
+                        if (pieceOnNewPos.getType() == PieceType.ROOK || pieceOnNewPos.getType() == PieceType.QUEEN)
+                            inCheck = true;
+                        mustStop = true;
+                    }
+                } else
+                    mustStop = true;
+            }
+        }
+        
+        // Check for bishops and queens
+        moveDirections = [7, -7, 9, -9];
+        foreach (direction; moveDirections) {
+            bool mustStop = false;
+            int currentPos = pos;
+            while (!mustStop) {
+                if (((direction == 7 || direction == -9) && Board.lowColCheck(currentPos)) || 
+                    ((direction == -7 || direction == 9) && Board.highColCheck(currentPos))) {
+                    mustStop = true;
+                    continue;
+                }
+                currentPos += direction;
+                Piece pieceOnNewPos = board.getPiece(currentPos);
+                if (pieceOnNewPos.getType() == PieceType.EMPTYSPACE)
+                    continue;
+                else if (pieceOnNewPos.getAlliance() != Alliance.NOPIECE) {
+                    if (pieceOnNewPos.getAlliance() == alliance)
+                        mustStop = true;
+                    else if (pieceOnNewPos.getType() == PieceType.BISHOP || pieceOnNewPos.getType() == PieceType.QUEEN){
+                        inCheck = true;
+                        mustStop = true;
+                    }
+                } else
+                    mustStop = true;
+            }
+        }
+
+        moveDirections = [6, -6, 10, -10, 15, -15, 17, -17];
+        foreach (direction; moveDirections) {
+            if (((direction == 15 || direction == -17) && Board.lowColCheck(pos)) || 
+                ((direction == -15 || direction == 17) && Board.highColCheck(pos)) ||
+                ((direction == 6 || direction == -10) && Board.lowTwoColCheck(pos)) ||
+                ((direction == -6 || direction == 10) && Board.highTwoColCheck(pos)))
+                continue;
+            if (board.getPiece(pos + direction).getAlliance() == enemyAlliance)
+                inCheck = true;
+        }
+
+        return inCheck;
+    }
+
     override Piece move(int newPos) {
         return new King(alliance, newPos, true);
     }

@@ -63,6 +63,7 @@ class Board {
         }
 
         updateValidMoves();
+        whiteToMove = !whiteToMove;
     }
 
     Piece getPiece(int pos) {
@@ -78,6 +79,10 @@ class Board {
 
     Piece[] getPieces() {
         return pieces;
+    }
+
+    bool isWhiteToMove() {
+        return whiteToMove;
     }
 
     private void updateValidMoves() {

@@ -5,6 +5,7 @@ import std.stdio;
 import core.stdc.stdlib;
 import engine.board;
 import engine.pieces.piece;
+import engine.pieces.king;
 import engine.pieces.moves.move;
 
 class Window {
@@ -216,6 +217,12 @@ class Window {
             srcRect.x = 0;
             srcRect.y = 0;
 
+            if (auto king = cast(King) piece) {
+                if (king.inCheck(board)) {
+                    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+                    SDL_RenderFillRect(renderer, &imgRect);
+                }
+            }
             SDL_RenderCopy(renderer, tex, &srcRect, &imgRect);
         }
     }
