@@ -6,8 +6,6 @@ import engine.pieces.moves.move;
 import engine.pieces.moves.castle;
 import engine.pieces.rook;
 
-
-
 class King : Piece {
     private bool hasMoved;
 
@@ -47,10 +45,21 @@ class King : Piece {
                 board.getPiece(pos - 2).getType() == PieceType.EMPTYSPACE) {
                 
                 Piece pieceOnCorner = board.getPiece(pos - 3);
-                if (auto r = cast(Rook) pieceOnCorner) {
+                if (auto r = cast(Rook) pieceOnCorner)
                     if (!r.hasMoved()) {
                         legalMoves ~= new CastleMove(pos, pos - 3);
-                    }
+                }
+            }
+            
+            bool pieceInWay = false;
+            for (int i = 1; i <= 3; i++)
+                pieceInWay = pieceInWay || board.getPiece(pos + i).getType() != PieceType.EMPTYSPACE;
+            
+            if (!pieceInWay) {
+                Piece pieceOnCorner = board.getPiece(pos + 4);
+                if (auto r = cast(Rook) pieceOnCorner) {
+                    if (!r.hasMoved())
+                        legalMoves ~= new CastleMove(pos, pos + 4);
                 }
             }
         }
