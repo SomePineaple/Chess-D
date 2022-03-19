@@ -106,7 +106,8 @@ class King : Piece {
                 ((direction == 6 || direction == -10) && Board.lowTwoColCheck(pos)) ||
                 ((direction == -6 || direction == 10) && Board.highTwoColCheck(pos)))
                 continue;
-            if (board.getPiece(pos + direction).getAlliance() == enemyAlliance)
+            auto pieceOnPos = board.getPiece(pos + direction);
+            if (pieceOnPos.getAlliance() == enemyAlliance && pieceOnPos.getType() == PieceType.KNIGHT)
                 inCheck = true;
         }
 

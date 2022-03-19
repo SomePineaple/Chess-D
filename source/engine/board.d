@@ -67,8 +67,8 @@ class Board {
         if (!madeMove)
             return;
 
-        updateValidMoves();
         whiteToMove = !whiteToMove;
+        updateValidMoves();
     }
 
     Piece getPiece(int pos) {
