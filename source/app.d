@@ -4,7 +4,41 @@ import engine.board;
 import bindbc.sdl;
 import ui.window;
 
-void main() {
+bool loadLib() {
+    auto ret = loadSDL();
+    if(ret != sdlSupport) {
+        string msg;
+        if(ret == SDLSupport.noLibrary) {
+            msg = "This application requires the SDL library.";
+        } else {
+            msg = "The version of the SDL library on your system is too low. Please upgrade.";
+        }
+        writeln(msg);
+        return false;
+    }
+    auto imgRet = loadSDLImage();
+    if (imgRet != sdlImageSupport) {
+        string msg;
+        if (imgRet == SDLImageSupport.noLibrary)
+            msg = "This application requires the SDL Image library.";
+        else
+            msg = "The version of the SDL Image library on your system is too low. Please upgrade.";
+        writeln(msg);
+        return false;
+    }
+    return true;
+}
+
+int main() {
+    version(linux) {
+        bool sdlSupport = loadLib();
+        if (!sdlSupport)
+            return -1;
+    }
+    version (Windows) {
+        loadSDL("libs/SDL2-2.0.20-win32-x64/SDL2.dll");
+        loadSDLImage("libs/SDL2_image-2.0.5-win32-x64/SDL2_image.dll");
+    }
     auto board = new Board();
     board.printBoard();
 
@@ -29,4 +63,6 @@ void main() {
 
     window.destroy();
     SDL_Quit();
+
+    return 0;
 }
