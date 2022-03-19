@@ -24,7 +24,7 @@ class King : Piece {
         // Check for pawns
         if (alliance == Alliance.WHITE) {
             int endPos = pos + 7;
-            Piece pieceOnEndPos = board.getPiece(endPos);
+            auto pieceOnEndPos = board.getPiece(endPos);
             if (pieceOnEndPos.getAlliance() == enemyAlliance && pieceOnEndPos.getType() == PieceType.PAWN &&
                     !Board.lowColCheck(pos))
                 inCheck = true;
@@ -34,7 +34,7 @@ class King : Piece {
                     !Board.highColCheck(pos))
                 inCheck = true;
         } else {
-            Piece pieceOnEndPos = board.getPiece(pos - 7);
+            auto pieceOnEndPos = board.getPiece(pos - 7);
             if (pieceOnEndPos.getAlliance() == enemyAlliance && pieceOnEndPos.getType() == PieceType.PAWN &&
                     !Board.highColCheck(pos))
                 inCheck = true;
@@ -56,7 +56,7 @@ class King : Piece {
                     continue;
                 }
                 currentPos += direction;
-                Piece pieceOnNewPos = board.getPiece(currentPos);
+                auto pieceOnNewPos = board.getPiece(currentPos);
                 if (pieceOnNewPos.getType() == PieceType.EMPTYSPACE)
                     continue;
                 else if (pieceOnNewPos.getAlliance() != Alliance.NOPIECE) {
@@ -84,7 +84,7 @@ class King : Piece {
                     continue;
                 }
                 currentPos += direction;
-                Piece pieceOnNewPos = board.getPiece(currentPos);
+                auto pieceOnNewPos = board.getPiece(currentPos);
                 if (pieceOnNewPos.getType() == PieceType.EMPTYSPACE)
                     continue;
                 else if (pieceOnNewPos.getAlliance() != Alliance.NOPIECE) {
@@ -106,8 +106,8 @@ class King : Piece {
                 ((direction == 6 || direction == -10) && Board.lowTwoColCheck(pos)) ||
                 ((direction == -6 || direction == 10) && Board.highTwoColCheck(pos)))
                 continue;
-            auto pieceOnPos = board.getPiece(pos + direction);
-            if (pieceOnPos.getAlliance() == enemyAlliance && pieceOnPos.getType() == PieceType.KNIGHT)
+            auto pieceOnNewPos = board.getPiece(pos + direction);
+            if (pieceOnNewPos.getAlliance() == enemyAlliance && pieceOnNewPos.getType() == PieceType.KNIGHT)
                 inCheck = true;
         }
 
@@ -127,7 +127,7 @@ class King : Piece {
             if (((possibleMove == -1 || possibleMove == 7 || possibleMove == -9) && Board.lowColCheck(pos)) || 
                 ((possibleMove == 1 || possibleMove == 9 || possibleMove == -7) && Board.highColCheck(pos)))
                 continue;
-            Piece piece = board.getPiece(pos + possibleMove);
+            auto piece = board.getPiece(pos + possibleMove);
             if (piece.getType() == PieceType.EMPTYSPACE)
                 legalMoves ~= new Move(pos, pos + possibleMove, MoveType.NORMAL);
             else if (piece.getAlliance() == enemyAlliance)
@@ -139,7 +139,7 @@ class King : Piece {
             if (board.getPiece(pos - 1).getType() == PieceType.EMPTYSPACE && 
                 board.getPiece(pos - 2).getType() == PieceType.EMPTYSPACE) {
                 
-                Piece pieceOnCorner = board.getPiece(pos - 3);
+                auto pieceOnCorner = board.getPiece(pos - 3);
                 if (auto r = cast(Rook) pieceOnCorner)
                     if (!r.hasMoved()) {
                         legalMoves ~= new CastleMove(pos, pos - 3);
@@ -151,7 +151,7 @@ class King : Piece {
                 pieceInWay = pieceInWay || board.getPiece(pos + i).getType() != PieceType.EMPTYSPACE;
             
             if (!pieceInWay) {
-                Piece pieceOnCorner = board.getPiece(pos + 4);
+                auto pieceOnCorner = board.getPiece(pos + 4);
                 if (auto r = cast(Rook) pieceOnCorner) {
                     if (!r.hasMoved())
                         legalMoves ~= new CastleMove(pos, pos + 4);

@@ -40,7 +40,7 @@ class Rook : Piece {
                     continue;
                 }
                 currentPos += direction;
-                Piece pieceOnNewPos = board.getPiece(currentPos);
+                auto pieceOnNewPos = board.getPiece(currentPos);
                 if (pieceOnNewPos.getType() == PieceType.EMPTYSPACE)
                     legalMoves ~= new Move(pos, currentPos, MoveType.NORMAL);
                 else if (pieceOnNewPos.getAlliance() != Alliance.NOPIECE) {

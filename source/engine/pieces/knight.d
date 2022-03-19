@@ -24,7 +24,7 @@ class Knight : Piece {
                 ((direction == -6 || direction == 10) && Board.highTwoColCheck(pos)))
                 continue;
             int endPos = pos + direction;
-            Piece pieceOnEndPos = board.getPiece(endPos);
+            auto pieceOnEndPos = board.getPiece(endPos);
             if (pieceOnEndPos.getType() == PieceType.EMPTYSPACE)
                 validMoves ~= new Move(pos, endPos, MoveType.NORMAL);
             else if (pieceOnEndPos.getAlliance() == enemyAlliance)
