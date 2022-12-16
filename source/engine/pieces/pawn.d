@@ -7,7 +7,7 @@ import engine.board;
 
 class Pawn : Piece {
     this(Alliance a, int boardPosition) {
-        super(PieceType.PAWN, a == Alliance.WHITE ? 'P' : 'p', a, boardPosition);
+        super(PieceType.PAWN, a == Alliance.WHITE ? 'P' : 'p', a, boardPosition, 1);
     }
 
     override Piece move(int newPos) {

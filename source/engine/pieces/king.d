@@ -10,12 +10,12 @@ class King : Piece {
     private bool hasMoved;
 
     this(Alliance a, int boardPosition) {
-        super(PieceType.KING, a == Alliance.WHITE ? 'K' : 'k', a, boardPosition);
+        super(PieceType.KING, a == Alliance.WHITE ? 'K' : 'k', a, boardPosition, 10_000);
         hasMoved = false;
     }
 
     this(Alliance a, int boardPosition, bool hasPieceMoved) {
-        super(PieceType.KING, a == Alliance.WHITE ? 'K' : 'k', a, boardPosition);
+        super(PieceType.KING, a == Alliance.WHITE ? 'K' : 'k', a, boardPosition, 10_000);
         hasMoved = hasPieceMoved;
     }
 

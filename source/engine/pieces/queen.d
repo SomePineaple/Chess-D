@@ -6,7 +6,7 @@ import engine.board;
 
 class Queen : Piece {
     this(Alliance a, int boardPosition) {
-        super(PieceType.QUEEN, a == Alliance.WHITE ? 'Q' : 'q', a, boardPosition);
+        super(PieceType.QUEEN, a == Alliance.WHITE ? 'Q' : 'q', a, boardPosition, 9);
     }
 
     override Piece move(int newPos) {

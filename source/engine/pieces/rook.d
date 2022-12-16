@@ -9,7 +9,7 @@ class Rook : Piece {
     private bool moved;
 
     this(Alliance a, int boardPosition) {
-        super(PieceType.ROOK, a == Alliance.WHITE ? 'R' : 'r', a, boardPosition);
+        super(PieceType.ROOK, a == Alliance.WHITE ? 'R' : 'r', a, boardPosition, 5);
         moved = false;
     }
 

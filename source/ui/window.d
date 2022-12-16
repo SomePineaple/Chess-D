@@ -7,6 +7,8 @@ import engine.board;
 import engine.pieces.piece;
 import engine.pieces.king;
 import engine.pieces.moves.move;
+import engine.ai.movemaker;
+import engine.ai.basicminimax.basicminmax;
 
 class Window {
     private int width, height;
@@ -31,6 +33,8 @@ class Window {
     private SDL_Texture *wkTexture;
     private SDL_Texture *wpTexture;
 
+    private IMoveMaker moveMaker;
+
     this(int windowWidth, int windowHeight) {
         width = windowWidth;
         height = windowHeight;
@@ -40,6 +44,7 @@ class Window {
         imgRect.w = width / 8;
         imgRect.h = height / 8;
         selectedSquare = -1;
+        moveMaker = new BasicMiniMax();
     }
 
     void create() {
@@ -57,7 +62,7 @@ class Window {
         SDL_ShowWindow(window);
     }
 
-    void update(Board *board) {
+    void update(Board board) {
         SDL_Event event;
 
         while (SDL_PollEvent(&event)) {
@@ -79,7 +84,12 @@ class Window {
                         writeln("Selected square ", 63 - click);
                         break;
                     } else {
-                        board.makeMove(63 - selectedSquare, 63 - click);
+                        if (board.makeMove(63 - selectedSquare, 63 - click)) {
+                            auto aiMove = moveMaker.pickMove(board);
+                            aiMove.makeMove(board);
+                            board.changeTurn();
+                            board.printBoard();
+                        }
                         selectedSquare = -1;
                     }
                     break;

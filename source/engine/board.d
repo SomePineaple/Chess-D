@@ -9,6 +9,7 @@ import engine.pieces.queen;
 import engine.pieces.king;
 import engine.pieces.moves.move;
 import std.stdio;
+import std.algorithm;
 
 class Board {
     private Piece[64] pieces;
@@ -17,6 +18,12 @@ class Board {
 
     this() {
         resetBoard();
+    }
+
+    this(Board other) {
+        resetBoard();
+        pieces = other.getPieces();
+        updateValidMoves();
     }
 
     static bool lowTwoColCheck(int pos) {
@@ -37,6 +44,12 @@ class Board {
         return pos % 8 == 7;
     }
 
+    Alliance checkMate() {
+        if (legalMoves.length == 0)
+            return whiteToMove ? Alliance.WHITE : Alliance.BLACK;
+        return Alliance.NOPIECE;
+    }
+
     void printBoard() {
         for (int i = 0; i < 64; i++) {
 
@@ -49,7 +62,7 @@ class Board {
         }
     }
 
-    void makeMove(int startPos, int endPos) {
+    bool makeMove(int startPos, int endPos) {
         Move mv = new Move(
             startPos, endPos, 
             pieces[endPos].getType() == PieceType.EMPTYSPACE ? MoveType.NORMAL : MoveType.ATTACK
@@ -65,8 +78,14 @@ class Board {
         }
 
         if (!madeMove)
-            return;
+            return false;
 
+        whiteToMove = !whiteToMove;
+        updateValidMoves();
+        return true;
+    }
+
+    void changeTurn() {
         whiteToMove = !whiteToMove;
         updateValidMoves();
     }
@@ -84,6 +103,14 @@ class Board {
 
     Piece[] getPieces() {
         return pieces;
+    }
+
+    Move[] getMoves() {
+        return legalMoves;
+    }
+
+    bool isWhiteToMove() {
+        return whiteToMove;
     }
 
     private void updateValidMoves() {

@@ -14,8 +14,9 @@ class Piece {
     protected Alliance alliance;
     protected Alliance enemyAlliance;
     protected int pos;
+    protected int value;
 
-    this(PieceType pieceType, char pieceBoardPiece, Alliance pieceAlliance, int boardPosition) {
+    this(PieceType pieceType, char pieceBoardPiece, Alliance pieceAlliance, int boardPosition, int pieceValue) {
         type = pieceType;
         boardPiece = pieceBoardPiece;
         alliance = pieceAlliance;
@@ -23,6 +24,7 @@ class Piece {
         if (pieceAlliance == Alliance.NOPIECE)
             enemyAlliance = Alliance.NOPIECE;
         pos = boardPosition;
+        value = pieceValue;
     }
 
     abstract Piece move(int newPos);
@@ -43,11 +45,15 @@ class Piece {
     int getPosition() {
         return pos;
     }
+
+    int getValue() {
+        return value;
+    }
 }
 
 class EmptySpace : Piece {
     this(int boardPosition) {
-        super(PieceType.EMPTYSPACE, '-', Alliance.NOPIECE, boardPosition);
+        super(PieceType.EMPTYSPACE, '-', Alliance.NOPIECE, boardPosition, 0);
     }
 
     override Piece move(int newPos) {
@@ -62,7 +68,7 @@ class EmptySpace : Piece {
 
 class OffBoardSpace : Piece {
     this(int boardPosition) {
-        super(PieceType.OFFBOARD, '-', Alliance.NOPIECE, boardPosition);
+        super(PieceType.OFFBOARD, '-', Alliance.NOPIECE, boardPosition, 0);
     }
 
     override Piece move(int newPos) {
